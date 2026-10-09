@@ -4,474 +4,524 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&family=Noto+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --screen:#14100e;
-    --screen-raised:#1e1815;
-    --screen-raised-2:#251e19;
-    --subtitle:#f5ede3;
-    --subtitle-dim:#b3a598;
-    --subtitle-faint:#7d7266;
-    --rule:rgba(245,237,227,0.14);
-    --rule-soft:rgba(245,237,227,0.08);
-    --reactions:#f2994a;
-    --cafe:#4c9aff;
-    --drama:#ef6d9a;
-    --slang:#a374d6;
-    --farewell:#3fbf76;
-    --focus:#f5ede3;
-  }
+:root{
+--screen:#14100e;
+--screen-raised:#1e1815;
+--screen-raised-2:#251e19;
+--subtitle:#f5ede3;
+--subtitle-dim:#b3a598;
+--subtitle-faint:#7d7266;
+--rule:rgba(245,237,227,0.14);
+--rule-soft:rgba(245,237,227,0.08);
+--reactions:#f2994a;
+--cafe:#4c9aff;
+--drama:#ef6d9a;
+--slang:#a374d6;
+--farewell:#3fbf76;
+--focus:#f5ede3;
+--gold:#d4a24e;
+}
 
-  *{box-sizing:border-box;}
-  html{-webkit-text-size-adjust:100%;}
-  body{
-    margin:0;
-    background:var(--screen);
-    color:var(--subtitle);
-    font-family:'Noto Sans KR', sans-serif;
-    line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-  }
-  img{max-width:100%;display:block;}
-  a{color:inherit;}
-  h1,h2,h3{font-family:'Noto Serif KR', serif; margin:0; text-wrap:balance;}
-  .mono{font-family:'IBM Plex Mono', monospace;}
-  ::selection{background:var(--reactions); color:#1a1310;}
-  :focus-visible{outline:2px solid var(--focus); outline-offset:3px;}
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
-  }
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+margin:0;
+background:var(--screen);
+color:var(--subtitle);
+font-family:'Noto Sans KR', sans-serif;
+line-height:1.7;
+-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;}
+h1,h2,h3{font-family:'Noto Serif KR', serif; margin:0; text-wrap:balance;}
+.mono{font-family:'IBM Plex Mono', monospace;}
+::selection{background:var(--reactions); color:#1a1310;}
+:focus-visible{outline:2px solid var(--focus); outline-offset:3px;}
+@media (prefers-reduced-motion: reduce){
+*{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+}
 
-  /* film-grain vignette, static */
-  .grain{
-    position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.5;
-    background:
-      radial-gradient(ellipse at 20% -10%, rgba(242,153,74,0.10), transparent 55%),
-      radial-gradient(ellipse at 100% 10%, rgba(239,109,154,0.08), transparent 50%),
-      radial-gradient(ellipse at 0% 100%, rgba(76,154,255,0.07), transparent 55%);
-  }
+/* film-grain vignette, static */
+.grain{
+position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.5;
+background:
+radial-gradient(ellipse at 20% -10%, rgba(242,153,74,0.10), transparent 55%),
+radial-gradient(ellipse at 100% 10%, rgba(239,109,154,0.08), transparent 50%),
+radial-gradient(ellipse at 0% 100%, rgba(76,154,255,0.07), transparent 55%);
+}
 
-  .wrap{max-width:1120px; margin:0 auto; padding:0 clamp(20px,5vw,64px); position:relative; z-index:1;}
+.wrap{max-width:1120px; margin:0 auto; padding:0 clamp(20px,5vw,64px); position:relative; z-index:1;}
 
-  /* ---------- TOP BAR ---------- */
-  header{
-    position:sticky; top:0; z-index:20;
-    background:rgba(20,16,14,0.86); backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--rule-soft);
-  }
-  .topbar{display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); max-width:1120px; margin:0 auto;}
-  .brand{display:flex; align-items:baseline; gap:10px; font-family:'Noto Serif KR', serif; font-weight:700; font-size:1.05rem; letter-spacing:0.01em;}
-  .brand .en{font-family:'IBM Plex Mono', monospace; font-size:0.62rem; letter-spacing:0.14em; color:var(--subtitle-dim); font-weight:500;}
-  .rec{display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.1em; color:var(--subtitle-dim);}
-  .rec .dot{width:6px; height:6px; border-radius:50%; background:var(--drama);}
-  .nav-actions{display:flex; align-items:center; gap:18px;}
-  .nav-link{font-size:0.82rem; color:var(--subtitle-dim); text-decoration:none;}
-  .nav-link:hover{color:var(--subtitle);}
-  .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:10px 18px; border-radius:3px; text-decoration:none;
-    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; font-weight:600; letter-spacing:0.03em;
-    border:1px solid transparent; cursor:pointer;
-  }
-  .btn-primary{background:var(--subtitle); color:#1a1310;}
-  .btn-primary:hover{background:#fff;}
-  .btn-ghost{border-color:var(--rule); color:var(--subtitle);}
-  .btn-ghost:hover{border-color:var(--subtitle-dim);}
-  .btn-sm{padding:8px 14px; font-size:0.72rem;}
+/* ---------- PROMO BANNER ---------- */
+.promo-bar{
+background:linear-gradient(90deg, #2a2013, #1e1815);
+border-bottom:1px solid var(--rule-soft);
+text-align:center;
+padding:9px clamp(16px,4vw,32px);
+}
+.promo-bar a{
+font-family:'IBM Plex Mono', monospace; font-size:0.76rem; letter-spacing:0.02em;
+color:var(--gold); text-decoration:none;
+}
+.promo-bar a:hover{ color:#f0c374; }
+.promo-bar .code{ background:rgba(212,162,78,0.14); padding:2px 7px; border-radius:4px; font-weight:600; }
 
-  /* ---------- HERO ---------- */
-  .hero{padding:clamp(48px,9vw,96px) 0 clamp(40px,7vw,72px); border-bottom:1px solid var(--rule-soft);}
-  .eyebrow{
-    font-family:'IBM Plex Mono', monospace; font-size:0.74rem; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--subtitle-dim); display:flex; align-items:center; gap:10px; margin-bottom:22px;
-  }
-  .eyebrow .bar{width:26px; height:1px; background:var(--rule);}
-  .hero-frame{
-    background:linear-gradient(165deg, var(--screen-raised) 0%, #241a20 100%);
-    border:1px solid var(--rule-soft); border-radius:6px;
-    padding:clamp(28px,5vw,56px); position:relative; overflow:hidden;
-  }
-  .hero-frame::before{
-    content:""; position:absolute; inset:0;
-    background:repeating-linear-gradient(180deg, rgba(245,237,227,0.025) 0px, rgba(245,237,227,0.025) 1px, transparent 1px, transparent 3px);
-    pointer-events:none;
-  }
-  .hero-cat{
-    display:inline-flex; align-items:center; gap:7px; font-family:'IBM Plex Mono', monospace;
-    font-size:0.7rem; letter-spacing:0.08em; color:var(--subtitle-dim); margin-bottom:18px;
-  }
-  .hero-cat .dot{width:8px; height:8px; border-radius:50%;}
-  .hero-kr{font-size:clamp(2.6rem,7.5vw,5.2rem); font-weight:800; line-height:1.12; margin-bottom:14px;}
-  .hero-rom{font-family:'IBM Plex Mono', monospace; font-size:0.95rem; color:var(--subtitle-dim); margin-bottom:16px;}
-  .hero-gloss{font-size:1.08rem; color:var(--subtitle-dim); max-width:46ch; margin-bottom:32px;}
-  .hero-cta-row{display:flex; flex-wrap:wrap; align-items:center; gap:18px;}
-  .hero-sub{font-family:'IBM Plex Mono', monospace; font-size:0.74rem; color:var(--subtitle-faint);}
+/* ---------- TOP BAR ---------- */
+header{
+position:sticky; top:0; z-index:20;
+background:rgba(20,16,14,0.86); backdrop-filter:blur(10px);
+border-bottom:1px solid var(--rule-soft);
+}
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,64px); max-width:1120px; margin:0 auto;}
+.brand{display:flex; align-items:baseline; gap:10px; font-family:'Noto Serif KR', serif; font-weight:700; font-size:1.05rem; letter-spacing:0.01em;}
+.brand .en{font-family:'IBM Plex Mono', monospace; font-size:0.62rem; letter-spacing:0.14em; color:var(--subtitle-dim); font-weight:500;}
+.rec{display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.1em; color:var(--subtitle-dim);}
+.rec .dot{width:6px; height:6px; border-radius:50%; background:var(--drama);}
+.nav-actions{display:flex; align-items:center; gap:18px;}
+.nav-link{font-size:0.82rem; color:var(--subtitle-dim); text-decoration:none;}
+.nav-link:hover{color:var(--subtitle);}
+.btn{
+display:inline-flex; align-items:center; gap:8px;
+padding:10px 18px; border-radius:3px; text-decoration:none;
+font-family:'IBM Plex Mono', monospace; font-size:0.78rem; font-weight:600; letter-spacing:0.03em;
+border:1px solid transparent; cursor:pointer;
+}
+.btn-primary{background:var(--subtitle); color:#1a1310;}
+.btn-primary:hover{background:#fff;}
+.btn-ghost{border-color:var(--rule); color:var(--subtitle);}
+.btn-ghost:hover{border-color:var(--subtitle-dim);}
+.btn-sm{padding:8px 14px; font-size:0.72rem;}
 
-  .scrubber{display:flex; gap:5px; margin-top:34px; flex-wrap:wrap;}
-  .scrubber i{width:9px; height:9px; border-radius:50%; background:var(--rule); display:block;}
-  .scrubber i.on{background:var(--subtitle);}
+/* ---------- HERO ---------- */
+.hero{padding:clamp(48px,9vw,96px) 0 clamp(40px,7vw,72px); border-bottom:1px solid var(--rule-soft);}
+.eyebrow{
+font-family:'IBM Plex Mono', monospace; font-size:0.74rem; letter-spacing:0.14em; text-transform:uppercase;
+color:var(--subtitle-dim); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+}
+.eyebrow .bar{width:26px; height:1px; background:var(--rule);}
+.hero-frame{
+background:linear-gradient(165deg, var(--screen-raised) 0%, #241a20 100%);
+border:1px solid var(--rule-soft); border-radius:6px;
+padding:clamp(28px,5vw,56px); position:relative; overflow:hidden;
+}
+.hero-frame::before{
+content:""; position:absolute; inset:0;
+background:repeating-linear-gradient(180deg, rgba(245,237,227,0.025) 0px, rgba(245,237,227,0.025) 1px, transparent 1px, transparent 3px);
+pointer-events:none;
+}
+.hero-cat{
+display:inline-flex; align-items:center; gap:7px; font-family:'IBM Plex Mono', monospace;
+font-size:0.7rem; letter-spacing:0.08em; color:var(--subtitle-dim); margin-bottom:18px;
+}
+.hero-cat .dot{width:8px; height:8px; border-radius:50%;}
+.hero-kr{font-size:clamp(2.6rem,7.5vw,5.2rem); font-weight:800; line-height:1.12; margin-bottom:14px;}
+.hero-rom{font-family:'IBM Plex Mono', monospace; font-size:0.95rem; color:var(--subtitle-dim); margin-bottom:16px;}
+.hero-gloss{font-size:1.08rem; color:var(--subtitle-dim); max-width:46ch; margin-bottom:32px;}
+.hero-cta-row{display:flex; flex-wrap:wrap; align-items:center; gap:18px;}
+.hero-sub{font-family:'IBM Plex Mono', monospace; font-size:0.74rem; color:var(--subtitle-faint);}
 
-  .subhead{max-width:640px; margin:20px 0 0; color:var(--subtitle-dim); font-size:1.02rem;}
+.scrubber{display:flex; gap:5px; margin-top:34px; flex-wrap:wrap;}
+.scrubber i{width:9px; height:9px; border-radius:50%; background:var(--rule); display:block;}
+.scrubber i.on{background:var(--subtitle);}
 
-  /* ---------- SECTION SHELL ---------- */
-  section{padding:clamp(48px,8vw,88px) 0; border-bottom:1px solid var(--rule-soft);}
-  .section-head{display:flex; flex-direction:column; gap:14px; margin-bottom:clamp(32px,5vw,52px); max-width:640px;}
-  .section-title{font-size:clamp(1.7rem,3.4vw,2.3rem); font-weight:700;}
-  .section-desc{color:var(--subtitle-dim); font-size:1rem;}
+.subhead{max-width:640px; margin:20px 0 0; color:var(--subtitle-dim); font-size:1.02rem;}
 
-  /* ---------- EPISODE GRID ---------- */
-  .cat-legend{display:flex; flex-wrap:wrap; gap:10px 20px; margin-bottom:30px;}
-  .cat-legend span{display:inline-flex; align-items:center; gap:7px; font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--subtitle-dim); letter-spacing:0.02em;}
-  .cat-legend i{width:8px; height:8px; border-radius:50%; display:inline-block;}
+/* ---------- LEAD MAGNET ---------- */
+.leadmagnet{
+display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:24px;
+background:var(--screen-raised); border:1px solid var(--rule); border-radius:8px;
+padding:clamp(20px,3.5vw,32px); margin-top:28px;
+}
+@media (max-width:680px){ .leadmagnet{grid-template-columns:1fr; text-align:center;} }
+.leadmagnet .lm-icon{
+width:52px; height:52px; border-radius:50%; background:var(--screen-raised-2); border:1px solid var(--rule);
+display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;
+}
+@media (max-width:680px){ .leadmagnet .lm-icon{margin:0 auto;} }
+.leadmagnet h3{font-size:1.15rem; margin-bottom:5px;}
+.leadmagnet p{margin:0; color:var(--subtitle-dim); font-size:0.9rem;}
 
-  .chip-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(52px,1fr)); gap:8px; margin-bottom:36px;}
-  .chip{
-    aspect-ratio:1; border-radius:4px; border:1px solid var(--rule);
-    background:var(--screen-raised); display:flex; flex-direction:column; align-items:center; justify-content:center;
-    cursor:pointer; font-family:'IBM Plex Mono', monospace; gap:4px; padding:4px;
-    transition:transform .12s ease, border-color .12s ease;
-  }
-  .chip:hover{transform:translateY(-2px); border-color:var(--subtitle-dim);}
-  .chip .n{font-size:0.82rem; font-weight:600; color:var(--subtitle);}
-  .chip .d{width:5px; height:5px; border-radius:50%;}
-  .chip.locked{opacity:0.42;}
-  .chip.locked .n{color:var(--subtitle-dim);}
-  .chip.active{border-color:var(--subtitle); background:var(--screen-raised-2);}
+/* ---------- SECTION SHELL ---------- */
+section{padding:clamp(48px,8vw,88px) 0; border-bottom:1px solid var(--rule-soft);}
+.section-head{display:flex; flex-direction:column; gap:14px; margin-bottom:clamp(32px,5vw,52px); max-width:640px;}
+.section-title{font-size:clamp(1.7rem,3.4vw,2.3rem); font-weight:700;}
+.section-desc{color:var(--subtitle-dim); font-size:1rem;}
 
-  .reader{
-    background:var(--screen-raised); border:1px solid var(--rule); border-radius:8px;
-    padding:clamp(24px,4vw,40px); min-height:260px;
-  }
-  .reader-top{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-bottom:22px;}
-  .reader-daytag{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--subtitle-dim); letter-spacing:0.08em;}
-  .catpill{display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono', monospace; font-size:0.68rem; padding:5px 10px; border-radius:999px; border:1px solid var(--rule); color:var(--subtitle-dim);}
-  .catpill i{width:6px; height:6px; border-radius:50%;}
-  .levelpill{font-family:'IBM Plex Mono', monospace; font-size:0.65rem; padding:5px 10px; border-radius:999px; background:var(--screen-raised-2); color:var(--subtitle-dim); border:1px solid var(--rule);}
+/* ---------- EPISODE GRID ---------- */
+.cat-legend{display:flex; flex-wrap:wrap; gap:10px 20px; margin-bottom:30px;}
+.cat-legend span{display:inline-flex; align-items:center; gap:7px; font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--subtitle-dim); letter-spacing:0.02em;}
+.cat-legend i{width:8px; height:8px; border-radius:50%; display:inline-block;}
 
-  .reader-kr{font-size:clamp(2rem,4.2vw,2.9rem); font-weight:800; margin-bottom:6px;}
-  .reader-rom{font-family:'IBM Plex Mono', monospace; color:var(--subtitle-dim); font-size:0.9rem; margin-bottom:20px;}
-  .reader-meaning{font-size:1rem; color:var(--subtitle); max-width:64ch; margin-bottom:26px;}
+.chip-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(52px,1fr)); gap:8px; margin-bottom:36px;}
+.chip{
+aspect-ratio:1; border-radius:4px; border:1px solid var(--rule);
+background:var(--screen-raised); display:flex; flex-direction:column; align-items:center; justify-content:center;
+cursor:pointer; font-family:'IBM Plex Mono', monospace; gap:4px; padding:4px;
+transition:transform .12s ease, border-color .12s ease;
+}
+.chip:hover{transform:translateY(-2px); border-color:var(--subtitle-dim);}
+.chip .n{font-size:0.82rem; font-weight:600; color:var(--subtitle);}
+.chip .d{width:5px; height:5px; border-radius:50%;}
+.chip.locked{opacity:0.42;}
+.chip.locked .n{color:var(--subtitle-dim);}
+.chip.active{border-color:var(--subtitle); background:var(--screen-raised-2);}
 
-  .chatlog{display:flex; flex-direction:column; gap:10px; margin-bottom:22px;}
-  .bubble{display:flex; gap:10px; max-width:520px;}
-  .bubble .who{width:24px; height:24px; min-width:24px; border-radius:50%; background:var(--screen-raised-2); border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace; font-size:0.65rem; color:var(--subtitle-dim);}
-  .bubble .txt{background:var(--screen-raised-2); border:1px solid var(--rule); border-radius:2px 10px 10px 10px; padding:9px 13px; font-size:0.92rem;}
-  .bubble .txt .en{color:var(--subtitle-dim); font-size:0.8rem; margin-top:3px;}
+.reader{
+background:var(--screen-raised); border:1px solid var(--rule); border-radius:8px;
+padding:clamp(24px,4vw,40px); min-height:260px;
+}
+.reader-top{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; margin-bottom:22px;}
+.reader-daytag{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--subtitle-dim); letter-spacing:0.08em;}
+.catpill{display:inline-flex; align-items:center; gap:6px; font-family:'IBM Plex Mono', monospace; font-size:0.68rem; padding:5px 10px; border-radius:999px; border:1px solid var(--rule); color:var(--subtitle-dim);}
+.catpill i{width:6px; height:6px; border-radius:50%;}
+.levelpill{font-family:'IBM Plex Mono', monospace; font-size:0.65rem; padding:5px 10px; border-radius:999px; background:var(--screen-raised-2); color:var(--subtitle-dim); border:1px solid var(--rule);}
 
-  .tipline{
-    display:flex; gap:10px; align-items:flex-start; font-size:0.9rem; color:var(--subtitle-dim);
-    border-left:2px solid var(--reactions); padding:2px 0 2px 14px; margin-bottom:18px;
-  }
-  .challenge{font-size:0.88rem; color:var(--subtitle-dim); border-top:1px dashed var(--rule); padding-top:16px;}
-  .challenge b{color:var(--subtitle);}
+.reader-kr{font-size:clamp(2rem,4.2vw,2.9rem); font-weight:800; margin-bottom:6px;}
+.reader-rom{font-family:'IBM Plex Mono', monospace; color:var(--subtitle-dim); font-size:0.9rem; margin-bottom:20px;}
+.reader-meaning{font-size:1rem; color:var(--subtitle); max-width:64ch; margin-bottom:26px;}
 
-  .locked-msg{display:flex; flex-direction:column; align-items:flex-start; gap:16px; padding:20px 0;}
-  .locked-msg .big{font-size:2.4rem;}
-  .locked-msg p{color:var(--subtitle-dim); max-width:44ch; margin:0;}
+.chatlog{display:flex; flex-direction:column; gap:10px; margin-bottom:22px;}
+.bubble{display:flex; gap:10px; max-width:520px;}
+.bubble .who{width:24px; height:24px; min-width:24px; border-radius:50%; background:var(--screen-raised-2); border:1px solid var(--rule); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono', monospace; font-size:0.65rem; color:var(--subtitle-dim);}
+.bubble .txt{background:var(--screen-raised-2); border:1px solid var(--rule); border-radius:2px 10px 10px 10px; padding:9px 13px; font-size:0.92rem;}
+.bubble .txt .en{color:var(--subtitle-dim); font-size:0.8rem; margin-top:3px;}
 
-  /* ---------- WHY ---------- */
-  .why-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:28px;}
-  .why-card{padding-top:16px; border-top:1px solid var(--rule);}
-  .why-card .num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--subtitle-faint); margin-bottom:10px; display:block;}
-  .why-card h3{font-size:1.1rem; margin-bottom:8px; font-weight:700;}
-  .why-card p{color:var(--subtitle-dim); font-size:0.92rem; margin:0;}
+.tipline{
+display:flex; gap:10px; align-items:flex-start; font-size:0.9rem; color:var(--subtitle-dim);
+border-left:2px solid var(--reactions); padding:2px 0 2px 14px; margin-bottom:18px;
+}
+.challenge{font-size:0.88rem; color:var(--subtitle-dim); border-top:1px dashed var(--rule); padding-top:16px;}
+.challenge b{color:var(--subtitle);}
 
-  /* ---------- PRODUCT ---------- */
-  .product{
-    display:grid; grid-template-columns:280px 1fr; gap:clamp(28px,5vw,56px); align-items:center;
-  }
-  @media (max-width:760px){ .product{grid-template-columns:1fr;} }
-  .book-mock{
-    aspect-ratio:3/4; border-radius:8px; border:1px solid var(--rule);
-    background:linear-gradient(160deg, var(--screen-raised) 0%, #2a1c22 100%);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px;
-    position:relative; box-shadow:0 30px 60px rgba(0,0,0,0.45);
-  }
-  .book-mock .kr{font-size:2.1rem; font-weight:800; line-height:1.2;}
-  .book-mock .en{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.14em; color:var(--subtitle-dim);}
-  .book-mock .dots{display:flex; gap:6px; margin-top:8px;}
-  .book-mock .dots i{width:7px; height:7px; border-radius:50%;}
-  .book-mock .badge{
-    position:absolute; top:-14px; right:-14px; width:56px; height:56px; border-radius:50%;
-    background:var(--reactions); color:#1a1310; font-family:'IBM Plex Mono', monospace; font-weight:700;
-    font-size:0.62rem; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.15;
-    transform:rotate(-8deg);
-  }
-  .price-row{display:flex; align-items:baseline; gap:12px; margin:22px 0 20px;}
-  .price{font-family:'IBM Plex Mono', monospace; font-size:2.1rem; font-weight:600;}
-  .price-note{color:var(--subtitle-dim); font-size:0.85rem;}
-  .feature-list{list-style:none; margin:0 0 28px; padding:0; display:flex; flex-direction:column; gap:11px;}
-  .feature-list li{display:flex; gap:10px; font-size:0.94rem; color:var(--subtitle-dim);}
-  .feature-list li::before{content:"—"; color:var(--subtitle-faint); flex-shrink:0;}
-  .guarantee{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--subtitle-faint); margin-top:16px;}
+.locked-msg{display:flex; flex-direction:column; align-items:flex-start; gap:16px; padding:20px 0;}
+.locked-msg .big{font-size:2.4rem;}
+.locked-msg p{color:var(--subtitle-dim); max-width:44ch; margin:0;}
 
-  /* ---------- FOOTER ---------- */
-  footer{padding:clamp(32px,6vw,52px) 0;}
-  .foot-row{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;}
-  .foot-brand{font-family:'Noto Serif KR', serif; font-weight:700; font-size:0.95rem;}
-  .foot-links{display:flex; gap:20px; flex-wrap:wrap;}
-  .foot-links a{font-size:0.82rem; color:var(--subtitle-dim); text-decoration:none;}
-  .foot-links a:hover{color:var(--subtitle);}
-  .foot-fine{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; color:var(--subtitle-faint); margin-top:22px;}
+/* ---------- WHY ---------- */
+.why-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:28px;}
+.why-card{padding-top:16px; border-top:1px solid var(--rule);}
+.why-card .num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--subtitle-faint); margin-bottom:10px; display:block;}
+.why-card h3{font-size:1.1rem; margin-bottom:8px; font-weight:700;}
+.why-card p{color:var(--subtitle-dim); font-size:0.92rem; margin:0;}
+
+/* ---------- PRODUCT ---------- */
+.product{
+display:grid; grid-template-columns:280px 1fr; gap:clamp(28px,5vw,56px); align-items:center;
+}
+@media (max-width:760px){ .product{grid-template-columns:1fr;} }
+.book-mock{
+aspect-ratio:3/4; border-radius:8px; border:1px solid var(--rule);
+background:linear-gradient(160deg, var(--screen-raised) 0%, #2a1c22 100%);
+display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px;
+position:relative; box-shadow:0 30px 60px rgba(0,0,0,0.45);
+}
+.book-mock .kr{font-size:2.1rem; font-weight:800; line-height:1.2;}
+.book-mock .en{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.14em; color:var(--subtitle-dim);}
+.book-mock .dots{display:flex; gap:6px; margin-top:8px;}
+.book-mock .dots i{width:7px; height:7px; border-radius:50%;}
+.book-mock .badge{
+position:absolute; top:-14px; right:-14px; width:56px; height:56px; border-radius:50%;
+background:var(--reactions); color:#1a1310; font-family:'IBM Plex Mono', monospace; font-weight:700;
+font-size:0.62rem; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.15;
+transform:rotate(-8deg);
+}
+.price-row{display:flex; align-items:baseline; gap:12px; margin:22px 0 4px; flex-wrap:wrap;}
+.price{font-family:'IBM Plex Mono', monospace; font-size:2.1rem; font-weight:600;}
+.price-was{font-family:'IBM Plex Mono', monospace; font-size:1.1rem; color:var(--subtitle-faint); text-decoration:line-through;}
+.price-note{color:var(--subtitle-dim); font-size:0.85rem;}
+.launch-note{
+display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace; font-size:0.74rem;
+color:var(--gold); background:rgba(212,162,78,0.1); border:1px solid rgba(212,162,78,0.3);
+border-radius:4px; padding:6px 10px; margin-bottom:20px;
+}
+.feature-list{list-style:none; margin:0 0 28px; padding:0; display:flex; flex-direction:column; gap:11px;}
+.feature-list li{display:flex; gap:10px; font-size:0.94rem; color:var(--subtitle-dim);}
+.feature-list li::before{content:"—"; color:var(--subtitle-faint); flex-shrink:0;}
+.guarantee{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--subtitle-faint); margin-top:16px;}
+
+/* ---------- FOOTER ---------- */
+footer{padding:clamp(32px,6vw,52px) 0;}
+.foot-row{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;}
+.foot-brand{font-family:'Noto Serif KR', serif; font-weight:700; font-size:0.95rem;}
+.foot-links{display:flex; gap:20px; flex-wrap:wrap;}
+.foot-links a{font-size:0.82rem; color:var(--subtitle-dim); text-decoration:none;}
+.foot-links a:hover{color:var(--subtitle);}
+.foot-fine{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; color:var(--subtitle-faint); margin-top:22px;}
 </style>
 
 <div class="grain"></div>
 
+<div class="promo-bar">
+<a href="https://iriswave258.gumroad.com/l/jnlcae/LAUNCH20" target="_blank" rel="noopener">🎉 Launch week — 20% off the full book with code <span class="code">LAUNCH20</span> · ends Oct 23 →</a>
+</div>
+
 <header>
-  <div class="topbar">
-    <div class="brand">진짜 한국어 <span class="en">REAL KOREAN DAILY</span></div>
-    <div class="nav-actions">
-      <span class="rec"><span class="dot"></span>DAY <span id="topDay">01</span> / 30</span>
-      <a class="nav-link" href="#episodes">Episodes</a>
-      <a class="btn btn-primary btn-sm" href="https://iriswave258.gumroad.com/l/jnlcae" target="_blank" rel="noopener">Get the Book — $9</a>
-    </div>
-  </div>
+<div class="topbar">
+<div class="brand">진짜 한국어 <span class="en">REAL KOREAN DAILY</span></div>
+<div class="nav-actions">
+<span class="rec"><span class="dot"></span>DAY <span id="topDay">01</span> / 30</span>
+<a class="nav-link" href="#episodes">Episodes</a>
+<a class="btn btn-primary btn-sm" href="https://iriswave258.gumroad.com/l/jnlcae/LAUNCH20" target="_blank" rel="noopener">Get the Book — $9</a>
+</div>
+</div>
 </header>
 
 <main class="wrap">
 
-  <section class="hero" style="border-bottom:none;">
-    <div class="eyebrow"><span class="bar"></span>NOW SHOWING · TODAY'S FREE PHRASE</div>
-    <div class="hero-frame">
-      <div class="hero-cat"><span class="dot" id="heroDot"></span><span id="heroCatLabel">REACTIONS &amp; EMOTIONS</span> · <span id="heroDayLabel">DAY 01</span></div>
-      <div class="hero-kr" id="heroKr">대박</div>
-      <div class="hero-rom" id="heroRom">daebak</div>
-      <p class="hero-gloss" id="heroGloss">The all-purpose exclamation for anything shocking, amazing, or unbelievable — good news or bad, this is the word Koreans reach for first.</p>
-      <div class="hero-cta-row">
-        <a class="btn btn-primary" href="https://iriswave258.gumroad.com/l/jnlcae" target="_blank" rel="noopener">▶ Unlock All 30 Days — $9</a>
-        <a class="btn btn-ghost" href="#episodes">See how it works ↓</a>
-      </div>
-      <div class="scrubber" id="scrubber" aria-hidden="true"></div>
-    </div>
-    <p class="subhead">A free daily phrase from real K-drama scripts, group chats, and fan comments — not the Korean your textbook teaches. Five episodes below are open right now. The rest are waiting in the full 30-day workbook.</p>
-  </section>
+<section class="hero" style="border-bottom:none;">
+<div class="eyebrow"><span class="bar"></span>NOW SHOWING · TODAY'S FREE PHRASE</div>
+<div class="hero-frame">
+<div class="hero-cat"><span class="dot" id="heroDot"></span><span id="heroCatLabel">REACTIONS &amp; EMOTIONS</span> · <span id="heroDayLabel">DAY 01</span></div>
+<div class="hero-kr" id="heroKr">대박</div>
+<div class="hero-rom" id="heroRom">daebak</div>
+<p class="hero-gloss" id="heroGloss">The all-purpose exclamation for anything shocking, amazing, or unbelievable — good news or bad, this is the word Koreans reach for first.</p>
+<div class="hero-cta-row">
+<a class="btn btn-primary" href="https://iriswave258.gumroad.com/l/jnlcae/LAUNCH20" target="_blank" rel="noopener">▶ Unlock All 30 Days — $9</a>
+<a class="btn btn-ghost" href="#episodes">See how it works ↓</a>
+</div>
+<div class="scrubber" id="scrubber" aria-hidden="true"></div>
+</div>
+<p class="subhead">A free daily phrase from real K-drama scripts, group chats, and fan comments — not the Korean your textbook teaches. Five episodes below are open right now. The rest are waiting in the full 30-day workbook.</p>
 
-  <section id="episodes">
-    <div class="section-head">
-      <div class="eyebrow"><span class="bar"></span>THE FULL SERIES</div>
-      <h2 class="section-title">30 days, 5 seasons.</h2>
-      <p class="section-desc">Every day unlocks one real expression — tap a day below. Five are open for preview; the other twenty-five are in the workbook.</p>
-    </div>
+<div class="leadmagnet">
+<div class="lm-icon">📄</div>
+<div>
+<h3>Want to keep 3 days with you?</h3>
+<p>Grab the free 3-Day Starter Pack as a PDF — same lessons as above, yours to save and read anywhere, no strings attached.</p>
+</div>
+<a class="btn btn-ghost btn-sm" href="https://iriswave258.gumroad.com/l/glkudb" target="_blank" rel="noopener">Get the free PDF →</a>
+</div>
+</section>
 
-    <div class="cat-legend" id="catLegend"></div>
-    <div class="chip-grid" id="chipGrid"></div>
+<section id="episodes">
+<div class="section-head">
+<div class="eyebrow"><span class="bar"></span>THE FULL SERIES</div>
+<h2 class="section-title">30 days, 5 seasons.</h2>
+<p class="section-desc">Every day unlocks one real expression — tap a day below. Five are open for preview; the other twenty-five are in the workbook.</p>
+</div>
 
-    <div class="reader" id="reader"></div>
-  </section>
+<div class="cat-legend" id="catLegend"></div>
+<div class="chip-grid" id="chipGrid"></div>
 
-  <section>
-    <div class="section-head">
-      <div class="eyebrow"><span class="bar"></span>WHY NOT JUST USE AN APP?</div>
-      <h2 class="section-title">Apps drill words.<br>This teaches the room.</h2>
-    </div>
-    <div class="why-grid">
-      <div class="why-card">
-        <span class="num mono">01</span>
-        <h3>Context, not just meaning</h3>
-        <p>Every phrase comes with the real conversation it lives in — who says it, when, and to whom — so you know when it's natural and when it's too much.</p>
-      </div>
-      <div class="why-card">
-        <span class="num mono">02</span>
-        <h3>Slang has a temperature</h3>
-        <p>존잘 and 조심히 가세요 are both "Korean," but one is for close friends and one is for your landlord. We flag the difference so you never guess wrong.</p>
-      </div>
-      <div class="why-card">
-        <span class="num mono">03</span>
-        <h3>Built for five minutes</h3>
-        <p>No streaks to protect, no lessons to finish. One page, one phrase, one small challenge to actually use it today.</p>
-      </div>
-    </div>
-  </section>
+<div class="reader" id="reader"></div>
+</section>
 
-  <section id="book" style="border-bottom:none;">
-    <div class="section-head">
-      <div class="eyebrow"><span class="bar"></span>THE COMPLETE BOX SET</div>
-      <h2 class="section-title">Take all 30 days with you.</h2>
-    </div>
-    <div class="product">
-      <div class="book-mock">
-        <div class="badge">30<br>DAYS</div>
-        <div class="kr">진짜<br>한국어</div>
-        <div class="en">REAL KOREAN</div>
-        <div class="dots">
-          <i style="background:var(--reactions)"></i><i style="background:var(--cafe)"></i><i style="background:var(--drama)"></i><i style="background:var(--slang)"></i><i style="background:var(--farewell)"></i>
-        </div>
-      </div>
-      <div>
-        <div class="price-row"><span class="price">$9</span><span class="price-note">one-time · instant PDF download</span></div>
-        <ul class="feature-list">
-          <li>All 30 daily lessons — Hangul, romanization, meaning &amp; nuance, and a two-line example in Korean + English</li>
-          <li>5 themed seasons: Reactions, Café &amp; Daily Life, K-Drama Romance, Slang &amp; Relationships, Farewells</li>
-          <li>A Mini Challenge on every page — a real way to use it that same day</li>
-          <li>Bonus Culture Deep-Dive: 정 (jeong), 애교 (aegyo), 국룰 (gungnyul) — explained properly</li>
-          <li>Practice line on every page to write your own sentence</li>
-        </ul>
-        <a class="btn btn-primary" href="https://iriswave258.gumroad.com/l/jnlcae" target="_blank" rel="noopener">▶ Get the Full 30 Days — $9</a>
-        <div class="guarantee">30-day money-back guarantee · via Gumroad</div>
-      </div>
-    </div>
-  </section>
+<section>
+<div class="section-head">
+<div class="eyebrow"><span class="bar"></span>WHY NOT JUST USE AN APP?</div>
+<h2 class="section-title">Apps drill words.<br>This teaches the room.</h2>
+</div>
+<div class="why-grid">
+<div class="why-card">
+<span class="num mono">01</span>
+<h3>Context, not just meaning</h3>
+<p>Every phrase comes with the real conversation it lives in — who says it, when, and to whom — so you know when it's natural and when it's too much.</p>
+</div>
+<div class="why-card">
+<span class="num mono">02</span>
+<h3>Slang has a temperature</h3>
+<p>존잘 and 조심히 가세요 are both "Korean," but one is for close friends and one is for your landlord. We flag the difference so you never guess wrong.</p>
+</div>
+<div class="why-card">
+<span class="num mono">03</span>
+<h3>Built for five minutes</h3>
+<p>No streaks to protect, no lessons to finish. One page, one phrase, one small challenge to actually use it today.</p>
+</div>
+</div>
+</section>
+
+<section id="book" style="border-bottom:none;">
+<div class="section-head">
+<div class="eyebrow"><span class="bar"></span>THE COMPLETE BOX SET</div>
+<h2 class="section-title">Take all 30 days with you.</h2>
+</div>
+<div class="product">
+<div class="book-mock">
+<div class="badge">30<br>DAYS</div>
+<div class="kr">진짜<br>한국어</div>
+<div class="en">REAL KOREAN</div>
+<div class="dots">
+<i style="background:var(--reactions)"></i><i style="background:var(--cafe)"></i><i style="background:var(--drama)"></i><i style="background:var(--slang)"></i><i style="background:var(--farewell)"></i>
+</div>
+</div>
+<div>
+<div class="price-row"><span class="price-was">$9</span><span class="price">$7.20</span><span class="price-note">one-time · instant PDF download</span></div>
+<div class="launch-note">🎉 Launch week — code LAUNCH20 applied automatically, ends Oct 23</div>
+<ul class="feature-list">
+<li>All 30 daily lessons — Hangul, romanization, meaning &amp; nuance, and a two-line example in Korean + English</li>
+<li>5 themed seasons: Reactions, Café &amp; Daily Life, K-Drama Romance, Slang &amp; Relationships, Farewells</li>
+<li>A Mini Challenge on every page — a real way to use it that same day</li>
+<li>Bonus Culture Deep-Dive: 정 (jeong), 애교 (aegyo), 국룰 (gungnyul) — explained properly</li>
+<li>Practice line on every page to write your own sentence</li>
+</ul>
+<a class="btn btn-primary" href="https://iriswave258.gumroad.com/l/jnlcae/LAUNCH20" target="_blank" rel="noopener">▶ Get the Full 30 Days — $9</a>
+<div class="guarantee">30-day money-back guarantee · via Gumroad</div>
+</div>
+</div>
+</section>
 
 </main>
 
 <footer>
-  <div class="wrap">
-    <div class="foot-row">
-      <div class="foot-brand">진짜 한국어 · Real Korean Daily</div>
-      <div class="foot-links">
-        <a href="https://iriswave258.gumroad.com/l/jnlcae" target="_blank" rel="noopener">Get the Book</a>
-        <a href="#episodes">Episodes</a>
-        <a href="#" onclick="return false;">Instagram</a>
-        <a href="#" onclick="return false;">TikTok</a>
-      </div>
-    </div>
-    <div class="foot-fine">© REAL KOREAN DAILY · A NEW EPISODE EVERY DAY</div>
-  </div>
+<div class="wrap">
+<div class="foot-row">
+<div class="foot-brand">진짜 한국어 · Real Korean Daily</div>
+<div class="foot-links">
+<a href="https://iriswave258.gumroad.com/l/jnlcae/LAUNCH20" target="_blank" rel="noopener">Get the Book</a>
+<a href="#episodes">Episodes</a>
+<a href="https://www.instagram.com/realkoreandaily/" target="_blank" rel="noopener">Instagram</a>
+<a href="https://www.tiktok.com/@realkoreandaily" target="_blank" rel="noopener">TikTok</a>
+</div>
+</div>
+<div class="foot-fine">© REAL KOREAN DAILY · A NEW EPISODE EVERY DAY</div>
+</div>
 </footer>
 
 <script>
 (function(){
-  var CATS = {
-    reactions:{label:'Reactions & Emotions', color:'var(--reactions)', range:[1,7]},
-    cafe:{label:'Café & Daily Life', color:'var(--cafe)', range:[8,14]},
-    drama:{label:'K-Drama Romance', color:'var(--drama)', range:[15,21]},
-    slang:{label:'Slang & Relationships', color:'var(--slang)', range:[22,28]},
-    farewell:{label:'Farewells', color:'var(--farewell)', range:[29,30]}
-  };
+var CATS = {
+reactions:{label:'Reactions & Emotions', color:'var(--reactions)', range:[1,7]},
+cafe:{label:'Café & Daily Life', color:'var(--cafe)', range:[8,14]},
+drama:{label:'K-Drama Romance', color:'var(--drama)', range:[15,21]},
+slang:{label:'Slang & Relationships', color:'var(--slang)', range:[22,28]},
+farewell:{label:'Farewells', color:'var(--farewell)', range:[29,30]}
+};
 
-  function catForDay(d){
-    for (var k in CATS){ if (d >= CATS[k].range[0] && d <= CATS[k].range[1]) return k; }
-    return 'reactions';
-  }
+function catForDay(d){
+for (var k in CATS){ if (d >= CATS[k].range[0] && d <= CATS[k].range[1]) return k; }
+return 'reactions';
+}
 
-  var FREE = {
-    1: {cat:'reactions', level:'Beginner', kr:'대박', rom:'daebak',
-        meaning:'The all-purpose exclamation for anything shocking, amazing, or unbelievable — good news or bad, this is the word Koreans reach for first.',
-        dkr:['나 로또 당첨됐어!','헐, 대박!!'], den:['I won the lottery!','Whoa, no way!!'],
-        tip:'You’ll hear this constantly — from lottery wins to shocking plot twists.',
-        challenge:'Next time something surprises you today — good or bad — react with 대박 instead of “wow.”'},
-    8: {cat:'cafe', level:'Beginner', kr:'이거 얼마예요?', rom:'igeo eolmayeyo?',
-        meaning:'The single most useful phrase for shopping and markets anywhere in Korea. Point at what you want and ask this.',
-        dkr:['손님: 이거 얼마예요?','직원: 5천원이에요.'], den:['Customer: How much is this?','Staff: It’s 5,000 won.'],
-        tip:'Works at markets, convenience stores, and street stalls alike.',
-        challenge:'Ask “이거 얼마예요?” next time you’re browsing a Korean market or shopping video.'},
-    15:{cat:'drama', level:'Intermediate', kr:'심쿵', rom:'simkung',
-        meaning:'A blend of 심장 (heart) + 쿵 (thump). That heart-skip moment when someone catches your eye — a K-drama essential.',
-        dkr:['그 남자 주인공 눈웃음 봤어?','완전 심쿵이었어.'], den:['Did you see the male lead’s eye-smile?','Total heart-flutter moment.'],
-        tip:'Usually paired with a slow-motion camera shot on screen.',
-        challenge:'Think of a moment that gave you 심쿵 recently — write it down using today’s word.'},
-    22:{cat:'slang', level:'Advanced', kr:'정 주다', rom:'jeong juda',
-        meaning:'정 (jeong) is a hard-to-translate Korean concept of deep, slow-built emotional attachment — to people, pets, even places.',
-        dkr:['그 강아지한테 정 많이 줬나 봐.','응, 이제 가족 같아.'], den:['You must have grown really attached to that dog.','Yeah, it feels like family now.'],
-        tip:'There’s no single English word for jeong — the closest is attachment + loyalty + shared history.',
-        challenge:'Think of something you’ve “정 줬다” to — a pet, a place, an old object.'},
-    29:{cat:'farewell', level:'Beginner', kr:'조심히 가세요', rom:'josimhi gaseyo',
-        meaning:'“Get home safe” — a warm, polite way to say goodbye to someone who’s leaving.',
-        dkr:['저 먼저 갈게요.','네, 조심히 가세요!'], den:['I’ll head out first.','Okay, get home safe!'],
-        tip:'Used with strangers and elders alike — always polite.',
-        challenge:'Say “조심히 가세요” to someone leaving your place today.'}
-  };
-  var FREE_DAYS = Object.keys(FREE).map(Number).sort(function(a,b){return a-b;});
+var FREE = {
+1: {cat:'reactions', level:'Beginner', kr:'대박', rom:'daebak',
+meaning:'The all-purpose exclamation for anything shocking, amazing, or unbelievable — good news or bad, this is the word Koreans reach for first.',
+dkr:['나 로또 당첨됐어!','헐, 대박!!'], den:['I won the lottery!','Whoa, no way!!'],
+tip:'You’ll hear this constantly — from lottery wins to shocking plot twists.',
+challenge:'Next time something surprises you today — good or bad — react with 대박 instead of “wow.”'},
+8: {cat:'cafe', level:'Beginner', kr:'이거 얼마예요?', rom:'igeo eolmayeyo?',
+meaning:'The single most useful phrase for shopping and markets anywhere in Korea. Point at what you want and ask this.',
+dkr:['손님: 이거 얼마예요?','직원: 5천원이에요.'], den:['Customer: How much is this?','Staff: It’s 5,000 won.'],
+tip:'Works at markets, convenience stores, and street stalls alike.',
+challenge:'Ask “이거 얼마예요?” next time you’re browsing a Korean market or shopping video.'},
+15:{cat:'drama', level:'Intermediate', kr:'심쿵', rom:'simkung',
+meaning:'A blend of 심장 (heart) + 쿵 (thump). That heart-skip moment when someone catches your eye — a K-drama essential.',
+dkr:['그 남자 주인공 눈웃음 봤어?','완전 심쿵이었어.'], den:['Did you see the male lead’s eye-smile?','Total heart-flutter moment.'],
+tip:'Usually paired with a slow-motion camera shot on screen.',
+challenge:'Think of a moment that gave you 심쿵 recently — write it down using today’s word.'},
+22:{cat:'slang', level:'Advanced', kr:'정 주다', rom:'jeong juda',
+meaning:'정 (jeong) is a hard-to-translate Korean concept of deep, slow-built emotional attachment — to people, pets, even places.',
+dkr:['그 강아지한테 정 많이 줬나 봐.','응, 이제 가족 같아.'], den:['You must have grown really attached to that dog.','Yeah, it feels like family now.'],
+tip:'There’s no single English word for jeong — the closest is attachment + loyalty + shared history.',
+challenge:'Think of something you’ve “정 줬다” to — a pet, a place, an old object.'},
+29:{cat:'farewell', level:'Beginner', kr:'조심히 가세요', rom:'josimhi gaseyo',
+meaning:'“Get home safe” — a warm, polite way to say goodbye to someone who’s leaving.',
+dkr:['저 먼저 갈게요.','네, 조심히 가세요!'], den:['I’ll head out first.','Okay, get home safe!'],
+tip:'Used with strangers and elders alike — always polite.',
+challenge:'Say “조심히 가세요” to someone leaving your place today.'}
+};
+var FREE_DAYS = Object.keys(FREE).map(Number).sort(function(a,b){return a-b;});
 
-  // legend
-  var legend = document.getElementById('catLegend');
-  Object.keys(CATS).forEach(function(k){
-    var el = document.createElement('span');
-    el.innerHTML = '<i style="background:'+CATS[k].color+'"></i>'+CATS[k].label;
-    legend.appendChild(el);
-  });
+// legend
+var legend = document.getElementById('catLegend');
+Object.keys(CATS).forEach(function(k){
+var el = document.createElement('span');
+el.innerHTML = '<i style="background:'+CATS[k].color+'"></i>'+CATS[k].label;
+legend.appendChild(el);
+});
 
-  // chip grid
-  var grid = document.getElementById('chipGrid');
-  for (var d=1; d<=30; d++){
-    (function(day){
-      var cat = catForDay(day);
-      var isFree = FREE.hasOwnProperty(day);
-      var chip = document.createElement('button');
-      chip.className = 'chip' + (isFree ? '' : ' locked');
-      chip.setAttribute('data-day', day);
-      chip.innerHTML = '<span class="n mono">'+String(day).padStart(2,'0')+'</span>'+
-        (isFree ? '<span class="d" style="background:'+CATS[cat].color+'"></span>' : '<span class="d" style="background:var(--rule)"></span>');
-      chip.setAttribute('aria-label', 'Day '+day+ (isFree ? ' — free preview' : ' — locked, in the full book'));
-      chip.addEventListener('click', function(){ selectDay(day); });
-      grid.appendChild(chip);
-    })(d);
-  }
+// chip grid
+var grid = document.getElementById('chipGrid');
+for (var d=1; d<=30; d++){
+(function(day){
+var cat = catForDay(day);
+var isFree = FREE.hasOwnProperty(day);
+var chip = document.createElement('button');
+chip.className = 'chip' + (isFree ? '' : ' locked');
+chip.setAttribute('data-day', day);
+chip.innerHTML = '<span class="n mono">'+String(day).padStart(2,'0')+'</span>'+
+(isFree ? '<span class="d" style="background:'+CATS[cat].color+'"></span>' : '<span class="d" style="background:var(--rule)"></span>');
+chip.setAttribute('aria-label', 'Day '+day+ (isFree ? ' — free preview' : ' — locked, in the full book'));
+chip.addEventListener('click', function(){ selectDay(day); });
+grid.appendChild(chip);
+})(d);
+}
 
-  var reader = document.getElementById('reader');
+var reader = document.getElementById('reader');
 
-  function renderFree(day){
-    var l = FREE[day];
-    var cat = CATS[l.cat];
-    reader.innerHTML =
-      '<div class="reader-top">'+
-        '<span class="reader-daytag">DAY '+String(day).padStart(2,'0')+' / 30 · FREE PREVIEW</span>'+
-        '<span><span class="catpill"><i style="background:'+cat.color+'"></i>'+cat.label+'</span> <span class="levelpill">'+l.level+'</span></span>'+
-      '</div>'+
-      '<div class="reader-kr">'+l.kr+'</div>'+
-      '<div class="reader-rom mono">'+l.rom+'</div>'+
-      '<p class="reader-meaning">'+l.meaning+'</p>'+
-      '<div class="chatlog">'+
-        '<div class="bubble"><div class="who">A</div><div class="txt">'+l.dkr[0]+'<div class="en">'+l.den[0]+'</div></div></div>'+
-        '<div class="bubble"><div class="who">B</div><div class="txt">'+l.dkr[1]+'<div class="en">'+l.den[1]+'</div></div></div>'+
-      '</div>'+
-      '<div class="tipline">💡 '+l.tip+'</div>'+
-      '<div class="challenge">🎯 <b>Mini Challenge —</b> '+l.challenge+'</div>';
-    highlightChip(day);
-  }
+function renderFree(day){
+var l = FREE[day];
+var cat = CATS[l.cat];
+reader.innerHTML =
+'<div class="reader-top">'+
+'<span class="reader-daytag">DAY '+String(day).padStart(2,'0')+' / 30 · FREE PREVIEW</span>'+
+'<span><span class="catpill"><i style="background:'+cat.color+'"></i>'+cat.label+'</span> <span class="levelpill">'+l.level+'</span></span>'+
+'</div>'+
+'<div class="reader-kr">'+l.kr+'</div>'+
+'<div class="reader-rom mono">'+l.rom+'</div>'+
+'<p class="reader-meaning">'+l.meaning+'</p>'+
+'<div class="chatlog">'+
+'<div class="bubble"><div class="who">A</div><div class="txt">'+l.dkr[0]+'<div class="en">'+l.den[0]+'</div></div></div>'+
+'<div class="bubble"><div class="who">B</div><div class="txt">'+l.dkr[1]+'<div class="en">'+l.den[1]+'</div></div></div>'+
+'</div>'+
+'<div class="tipline">💡 '+l.tip+'</div>'+
+'<div class="challenge">🎯 <b>Mini Challenge —</b> '+l.challenge+'</div>';
+highlightChip(day);
+}
 
-  function renderLocked(day){
-    var cat = CATS[catForDay(day)];
-    reader.innerHTML =
-      '<div class="reader-top">'+
-        '<span class="reader-daytag">DAY '+String(day).padStart(2,'0')+' / 30 · LOCKED</span>'+
-        '<span class="catpill"><i style="background:'+cat.color+'"></i>'+cat.label+'</span>'+
-      '</div>'+
-      '<div class="locked-msg">'+
-        '<div class="big">🔒</div>'+
-        '<p>Day '+day+' is one of 25 expressions saved for the full workbook — this one\'s from the <b style="color:var(--subtitle)">'+cat.label+'</b> season.</p>'+
-        '<a class="btn btn-primary" href="https://iriswave258.gumroad.com/l/jnlcae" target="_blank" rel="noopener">▶ Unlock All 30 Days — $9</a>'+
-      '</div>';
-    highlightChip(day);
-  }
+function renderLocked(day){
+var cat = CATS[catForDay(day)];
+reader.innerHTML =
+'<div class="reader-top">'+
+'<span class="reader-daytag">DAY '+String(day).padStart(2,'0')+' / 30 · LOCKED</span>'+
+'<span class="catpill"><i style="background:'+cat.color+'"></i>'+cat.label+'</span>'+
+'</div>'+
+'<div class="locked-msg">'+
+'<div class="big">🔒</div>'+
+'<p>Day '+day+' is one of 25 expressions saved for the full workbook — this one\'s from the <b style="color:var(--subtitle)">'+cat.label+'</b> season.</p>'+
+'<a class="btn btn-primary" href="https://iriswave258.gumroad.com/l/jnlcae/LAUNCH20" target="_blank" rel="noopener">▶ Unlock All 30 Days — $9</a>'+
+'</div>';
+highlightChip(day);
+}
 
-  function highlightChip(day){
-    var chips = grid.querySelectorAll('.chip');
-    chips.forEach(function(c){ c.classList.toggle('active', Number(c.getAttribute('data-day')) === day); });
-  }
+function highlightChip(day){
+var chips = grid.querySelectorAll('.chip');
+chips.forEach(function(c){ c.classList.toggle('active', Number(c.getAttribute('data-day')) === day); });
+}
 
-  function selectDay(day){
-    if (FREE.hasOwnProperty(day)) { renderFree(day); } else { renderLocked(day); }
-    try { localStorage.setItem('rkd_last_day', String(day)); } catch(e){}
-  }
+function selectDay(day){
+if (FREE.hasOwnProperty(day)) { renderFree(day); } else { renderLocked(day); }
+try { localStorage.setItem('rkd_last_day', String(day)); } catch(e){}
+}
 
-  // scrubber dots (30) showing today's featured free day as the lit one
-  var dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);
-  var featuredFree = FREE_DAYS[dayOfYear % FREE_DAYS.length];
+// scrubber dots (30) showing today's featured free day as the lit one
+var dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);
+var featuredFree = FREE_DAYS[dayOfYear % FREE_DAYS.length];
 
-  var scrub = document.getElementById('scrubber');
-  for (var s=1; s<=30; s++){
-    var i = document.createElement('i');
-    if (s === featuredFree) i.className = 'on';
-    scrub.appendChild(i);
-  }
+var scrub = document.getElementById('scrubber');
+for (var s=1; s<=30; s++){
+var i = document.createElement('i');
+if (s === featuredFree) i.className = 'on';
+scrub.appendChild(i);
+}
 
-  // hero = today's featured free lesson
-  var hf = FREE[featuredFree];
-  var hc = CATS[hf.cat];
-  document.getElementById('heroDot').style.background = hc.color;
-  document.getElementById('heroCatLabel').textContent = hc.label.toUpperCase();
-  document.getElementById('heroDayLabel').textContent = 'DAY '+String(featuredFree).padStart(2,'0');
-  document.getElementById('heroKr').textContent = hf.kr;
-  document.getElementById('heroRom').textContent = hf.rom;
-  document.getElementById('heroGloss').textContent = hf.meaning;
-  document.getElementById('topDay').textContent = String(featuredFree).padStart(2,'0');
+// hero = today's featured free lesson
+var hf = FREE[featuredFree];
+var hc = CATS[hf.cat];
+document.getElementById('heroDot').style.background = hc.color;
+document.getElementById('heroCatLabel').textContent = hc.label.toUpperCase();
+document.getElementById('heroDayLabel').textContent = 'DAY '+String(featuredFree).padStart(2,'0');
+document.getElementById('heroKr').textContent = hf.kr;
+document.getElementById('heroRom').textContent = hf.rom;
+document.getElementById('heroGloss').textContent = hf.meaning;
+document.getElementById('topDay').textContent = String(featuredFree).padStart(2,'0');
 
-  // initial reader state = today's featured day
-  var initial = featuredFree;
-  try {
-    var stored = parseInt(localStorage.getItem('rkd_last_day'), 10);
-    if (stored >= 1 && stored <= 30) initial = stored;
-  } catch(e){}
-  selectDay(initial);
+// initial reader state = today's featured day
+var initial = featuredFree;
+try {
+var stored = parseInt(localStorage.getItem('rkd_last_day'), 10);
+if (stored >= 1 && stored <= 30) initial = stored;
+} catch(e){}
+selectDay(initial);
 })();
 </script>
